@@ -35,7 +35,7 @@ export function HeaderApp() {
   const { classes, theme } = useStyles();
 
   return (
-    <Box pb={20}>
+    <Box pb={20} style={{position: "sticky"}}>
       <Header height={60} px="md">
         <Group position="apart" sx={{ height: "100%" }}>
           <TrojmiejskieLogo />
@@ -68,8 +68,8 @@ export function HeaderApp() {
       <Drawer
         opened={drawerOpened}
         onClose={closeDrawer}
-        size="100%"
-        padding="md"
+        size="80%"
+        position="left"
         className={classes.hiddenDesktop}
         zIndex={1000000}
         title={<Text fz={30}>Nawigacja</Text>}
