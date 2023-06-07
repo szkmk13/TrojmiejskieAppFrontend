@@ -7,7 +7,7 @@ interface Props {
 export  function TableRow({ data }: Props) {
   return (
     <>
-      <td>
+      <td style={{ whiteSpace: "nowrap" }}>
         <Center>{data}</Center>
       </td>
     </>

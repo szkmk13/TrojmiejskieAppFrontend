@@ -87,11 +87,12 @@ export default function MeetingsRows() {
 
   const rows = meetings.map((meeting) => (
     <tr key={meeting.id}>
-      <td>
+      <td style={{ whiteSpace: "nowrap" }}>
+        {" "}
         {meeting.participants.map((user) => (
-          <p>
+          <span>
             <Center>{user}</Center>
-          </p>
+          </span>
         ))}
       </td>
       <TableRow data={meeting.date} />

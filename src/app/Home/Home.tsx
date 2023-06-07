@@ -1,8 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Center, Grid, Text } from "@mantine/core";
+import { Center, Grid, Text, createStyles } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
 export default function Home() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const isMobile = useMediaQuery('(max-width: 1000px)');
 
+  const useStyles = createStyles(() => ({
+    rightColumn: {
+      textAlign: isMobile ? 'center' : 'right',
+    },
+    leftColumn: {
+      textAlign: isMobile ? 'center' : 'left',
+    },
+  }));
+
+  const styles = useStyles();
   useEffect(() => {
     const interval = setInterval(() => {
       const randomIndex = Math.floor(Math.random() * carouselData.length);
@@ -11,6 +23,7 @@ export default function Home() {
 
     return () => clearInterval(interval);
   }, []);
+  const getFontSize = () => (isMobile? 40: 50)
   const carouselData = [
     "Chłopaki",
     "Pracujemy",
@@ -43,8 +56,8 @@ export default function Home() {
           programistów 🙂
         </Text>
       </Grid.Col>
-      <Grid.Col span={2}>
-        <Text fz={50} sx={{ textAlign: "right" }}>
+      <Grid.Col span={isMobile ? 12 : 2}>
+        <Text fz={getFontSize()} className={styles.classes.rightColumn}>
           Trójmiejskie
         </Text>
       </Grid.Col>
@@ -54,17 +67,21 @@ export default function Home() {
             height: "100px",
             overflow: "hidden",
             position: "relative",
+            width: "sm"
           }}
         >
           <Center>
             <div
               style={{
+                width: "520px",
                 position: "absolute",
                 top: `-${activeIndex * 100}%`,
+                height: `${carouselData.length * 100}%`,
                 transition: "top 1s",
                 display: "flex",
                 flexDirection: "column",
-                height: `${carouselData.length * 100}%`,
+                whiteSpace:"nowrap"
+
               }}
             >
               {carouselData.map((text, index) => (
@@ -78,7 +95,7 @@ export default function Home() {
                     paddingBottom: 21,
                   }}
                 >
-                  <Text fz={50} weight={700}>
+                  <Text fz={getFontSize()} weight={700}>
                     {text}
                   </Text>
                 </div>
@@ -87,8 +104,8 @@ export default function Home() {
           </Center>
         </div>
       </Grid.Col>
-      <Grid.Col span={2}>
-        <Text fz={50} sx={{ textAlign: "left" }}>
+      <Grid.Col span={isMobile ? 12 : 2}>
+        <Text fz={getFontSize()} className={styles.classes.leftColumn}>
           Mężczyźni
         </Text>
       </Grid.Col>

@@ -14,9 +14,7 @@ export default function RootLayout({
     <QueryClientProvider client={queryClient}>
       <Head />
       <HeaderApp />
-
       {children}
-
       {/* <Footer /> */}
     </QueryClientProvider>
   );

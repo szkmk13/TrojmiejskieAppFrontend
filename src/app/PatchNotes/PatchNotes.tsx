@@ -6,10 +6,13 @@ import {
   Grid,
   List,
   MantineProvider,
+  ScrollArea,
   Text,
   Title,
+  rem,
 } from "@mantine/core";
 import Detail from "./components/Detail";
+import { useMediaQuery } from "@mantine/hooks";
 export default function PatchNotes() {
   const patchNotes = [
     {
@@ -63,9 +66,12 @@ export default function PatchNotes() {
       body: "LAUNCH APLIKACJI\r\nOd dzisiaj wszystkie rzeczy związane z trójmiejskimi są dostępne na stronie na której właśnie się znajdujesz (dopóki jest darmowy amazon ec2)",
     },
   ];
+  const isMobile = useMediaQuery('(max-width: 1000px)');
   return (
     <Grid>
-      <Grid.Col span={9}>
+      <Grid.Col span={isMobile? 12:9} order={isMobile?2:1}>
+      <ScrollArea h={`calc(100vh - ${rem(60)})`} type='scroll'>
+
         {patchNotes.map((note) => (
           <>
             <Text fz={40} id={note.title} fw={700}>
@@ -77,8 +83,12 @@ export default function PatchNotes() {
             <Text fz={20}>{note.body}</Text>
           </>
         ))}
+        </ScrollArea>
       </Grid.Col>
-      <Grid.Col span={3}>
+      
+      <Grid.Col span={isMobile? 12:3} order={isMobile?1:2}>
+      <ScrollArea h={`calc(30vh - ${rem(60)})`} type="always">
+
         <List size="xl">
           {patchNotes.map((note, index) => (
             <Anchor href={`#${note.title}`} target="_self">
@@ -86,6 +96,8 @@ export default function PatchNotes() {
             </Anchor>
           ))}
         </List>
+        </ScrollArea>
+
       </Grid.Col>
     </Grid>
   );

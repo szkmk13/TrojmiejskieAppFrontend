@@ -1,4 +1,4 @@
-import { Title, Text, rem, createStyles } from "@mantine/core";
+import { Title, Text, rem, createStyles, Box } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useState } from "react";
 
@@ -10,6 +10,8 @@ export function NavbarApp() {
       height: "100%",
       paddingLeft: theme.spacing.md,
       paddingRight: theme.spacing.md,
+      paddingBottom: theme.spacing.sm,
+      paddingTop: theme.spacing.sm,
       textDecoration: "none",
       color: theme.colorScheme === "dark" ? theme.white : theme.black,
       fontWeight: 500,

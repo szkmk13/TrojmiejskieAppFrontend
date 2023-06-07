@@ -31,11 +31,11 @@ export default function NewMeetingsRows() {
   ];
   const newrows = newMeetings.map((meeting) => (
     <tr key={meeting.id}>
-      <td>
+      <td style={{ whiteSpace: "nowrap" }}>
         {meeting.participants.map((user) => (
-          <p>
+          <>
             <Center>{user}</Center>
-          </p>
+          </>
         ))}
       </td>
       <TableRow data={meeting.date} />

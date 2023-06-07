@@ -9,6 +9,7 @@ import {
   Drawer,
   ScrollArea,
   rem,
+  Text,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { TrojmiejskieLogo } from "../Logo/TrojmiejskieLogo";
@@ -16,13 +17,13 @@ import { NavbarApp } from "./components/NavbarApp";
 
 const useStyles = createStyles((theme) => ({
   hiddenMobile: {
-    [theme.fn.smallerThan("sm")]: {
+    [theme.fn.smallerThan("1000")]: {
       display: "none",
     },
   },
 
   hiddenDesktop: {
-    [theme.fn.largerThan("sm")]: {
+    [theme.fn.largerThan("999")]: {
       display: "none",
     },
   },
@@ -34,7 +35,7 @@ export function HeaderApp() {
   const { classes, theme } = useStyles();
 
   return (
-    <Box pb={120}>
+    <Box pb={20}>
       <Header height={60} px="md">
         <Group position="apart" sx={{ height: "100%" }}>
           <TrojmiejskieLogo />
@@ -69,9 +70,9 @@ export function HeaderApp() {
         onClose={closeDrawer}
         size="100%"
         padding="md"
-        title="Navigation"
         className={classes.hiddenDesktop}
         zIndex={1000000}
+        title={<Text fz={30}>Nawigacja</Text>}
       >
         <ScrollArea h={`calc(100vh - ${rem(60)})`} mx="-md">
           <Divider
@@ -87,7 +88,12 @@ export function HeaderApp() {
           />
 
           <Group position="center" grow pb="xl" px="md">
-            <Button variant="default">Log in</Button>
+            <Button
+              variant="gradient"
+              gradient={{ from: "#ed6ea0", to: "#ec8c69", deg: 35 }}
+            >
+              Log in
+            </Button>
           </Group>
         </ScrollArea>
       </Drawer>
