@@ -48,6 +48,8 @@ export default function Home() {
     "Płaczemy razem",
     "ESPANIA",
   ];
+
+  
   return (
     <Grid justify="center" grow>
       <Grid.Col span={12}>

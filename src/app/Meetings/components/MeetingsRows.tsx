@@ -47,7 +47,7 @@ export default function MeetingsRows() {
         ))}
       </>
     );
-  if (data) {
+  if (data) 
     return (
       <>
         {data.map((meeting) => (
@@ -74,5 +74,5 @@ export default function MeetingsRows() {
         ))}
       </>
     );
-  }
+  
 }

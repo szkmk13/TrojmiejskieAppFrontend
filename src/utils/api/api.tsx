@@ -2,7 +2,11 @@ import { useQuery } from "react-query";
 
 export const APIROOT = 'https://szymon.kowalski.cybulski.dev/api/'
 export const MEETINGS_URL = APIROOT + 'meetings/'
+export const PENDING_MEETINGS_URL = APIROOT + 'meetings/pending/'
 export const PLACES = MEETINGS_URL + 'places/'
+export const PATCH_NOTES_URL = APIROOT + "patch_notes/"
+
+
 
 export const authHeaders =  {
     headers: {

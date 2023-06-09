@@ -24,6 +24,7 @@ export default function Meetings() {
   const [opened, { open, close }] = useDisclosure(false);
   const places = async () => {
     const res = await fetch(PLACES, authHeaders);
+    if (res.status === 401) throw new Error("An error occurred");
     return res.json();
   };
   const { data, error, isLoading } = useQuery("places", places);
