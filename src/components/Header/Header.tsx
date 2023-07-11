@@ -28,14 +28,17 @@ const useStyles = createStyles((theme) => ({
     },
   },
 }));
-
-export function HeaderApp() {
+interface Props {
+  loggedIn: boolean;
+  handleLogin: () => void;
+}
+export function HeaderApp({ handleLogin, loggedIn }: Props) {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const { classes, theme } = useStyles();
 
   return (
-    <Box pb={20} style={{position: "sticky"}}>
+    <Box pb={20} style={{ position: "sticky" }}>
       <Header height={60} px="md">
         <Group position="apart" sx={{ height: "100%" }}>
           <TrojmiejskieLogo />
@@ -52,8 +55,9 @@ export function HeaderApp() {
             <Button
               variant="gradient"
               gradient={{ from: "#ed6ea0", to: "#ec8c69", deg: 35 }}
+              onClick={handleLogin}
             >
-              Log in
+              {loggedIn?'Log out':"Log in"}
             </Button>
           </Group>
 

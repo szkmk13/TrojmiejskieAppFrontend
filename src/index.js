@@ -8,6 +8,7 @@ import NotImplemented from "./app/Notimplemented/NotImplemented.tsx";
 import reportWebVitals from "./reportWebVitals";
 import RootLayout from "./app/layout.tsx";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { useAuthStore } from "./authStore.js";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 const router = createBrowserRouter([
@@ -24,7 +25,7 @@ const queryClient = new QueryClient({
       refetchOnWindowFocus: false, // default: true
     },
   },
-})
+});
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
