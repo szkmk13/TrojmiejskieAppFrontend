@@ -11,16 +11,6 @@ export default function NotLoggedIn({ handleLogin }: Props) {
 
   return (
     <Grid justify="center" grow>
-      {/* <Button
-        variant="gradient"
-        gradient={{ from: "#ed2ae0", to: "#ec8c33", deg: 35 }}
-        onClick={handleLogin}
-      >      <div>
-      <p>Logged in: {loggedin ? 'Yes' : 'No'}</p>
-      <button onClick={handleLogout}>Logout</button>
-    </div>
-        Log in
-      </Button> */}
       <Grid.Col span={12}>
         <Text
           fz={isMobile ? 50 : 100}

@@ -6,6 +6,8 @@ import {
   Checkbox,
   Button,
   Modal,
+  ScrollArea,
+  Group,
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { useMediaQuery, useDisclosure } from "@mantine/hooks";
@@ -83,22 +85,17 @@ export function AddMeetingModal({ opened, onClose, withCloseButton }: Props) {
       value.includes(option.value)
     );
     setOptionsWhoDrink(whoDrink_based_on_list);
-    form.setFieldValue(
-      'participants', value
-    )
+    form.setFieldValue("participants", value);
   };
   const handleSecondMultiselectChange = (value) => {
     setWhoDrink(value);
-    form.setFieldValue(
-      'who_drink', value
-    )
+    form.setFieldValue("who_drink", value);
   };
   const sendNewMeeting = async (values) => {
     console.log(values);
     console.log("wyslano");
-    form.reset()
+    form.reset();
     onClose();
-
   };
 
   return (
@@ -107,15 +104,40 @@ export function AddMeetingModal({ opened, onClose, withCloseButton }: Props) {
       onClose={onClose}
       withCloseButton={withCloseButton}
       centered
-      size="auto"
+      size="xl"
+      yOffset={0}
+      xOffset={10}
     >
       <form onSubmit={form.onSubmit((values) => sendNewMeeting(values))}>
-        <Grid>
+        <Grid pb={160} pl={10} pr={10}>
           <Grid.Col span={12}>
             <Grid>
               <Grid.Col span={isMobile ? 12 : 6}>
+                <DatePickerInput
+                  size="md"
+                  icon={<IconCalendar size="1.1rem" stroke={1.5} />}
+                  label="Pick date"
+                  clearable
+                  value={dateValue}
+                  onChange={handleDateChange}
+                  mx="auto"
+                  maw={300}
+                  {...form.getInputProps("date")}
+                />
+              </Grid.Col>
+              <Grid.Col span={isMobile ? 12 : 6}>
+                <Select
+                  size="md"
+                  label="Miejsce"
+                  mx="auto"
+                  maw={300}
+                  data={opened ? meetingPlaces : ["a"]}
+                  {...form.getInputProps("place")}
+                />
+              </Grid.Col>
+              <Grid.Col span={isMobile ? 12 : 6}>
                 <MultiSelect
-                  size="xl"
+                  size="md"
                   value={participants}
                   data={options}
                   onChange={handleFirstMultiselectChange}
@@ -127,7 +149,7 @@ export function AddMeetingModal({ opened, onClose, withCloseButton }: Props) {
               </Grid.Col>
               <Grid.Col span={isMobile ? 12 : 6}>
                 <MultiSelect
-                  size="xl"
+                  size="md"
                   value={whoDrink}
                   data={options_who_drink}
                   onChange={handleSecondMultiselectChange}
@@ -136,33 +158,10 @@ export function AddMeetingModal({ opened, onClose, withCloseButton }: Props) {
                   maw={300}
                 />
               </Grid.Col>
-              <Grid.Col span={isMobile ? 12 : 6}>
-                <Select
-                  size="lg"
-                  label="Miejsce"
-                  mx="auto"
-                  maw={300}
-                  data={opened ? meetingPlaces : ["a"]}
-                  {...form.getInputProps('place')}
+              
 
-                />
-              </Grid.Col>
-              <Grid.Col span={isMobile ? 12 : 6}>
-                <DatePickerInput
-                  size="lg"
-                  icon={<IconCalendar size="1.1rem" stroke={1.5} />}
-                  label="Pick date"
-                  clearable
-                  value={dateValue}
-                  onChange={handleDateChange}
-                  mx="auto"
-                  maw={300}
-                  {...form.getInputProps('date')}
-
-                />
-              </Grid.Col>
-              <Grid.Col span={6}>
-                <Center>
+              <Grid.Col span={12}>
+                <Group position="center">
                   <Checkbox
                     labelPosition="left"
                     label="Kasyno"
@@ -170,13 +169,9 @@ export function AddMeetingModal({ opened, onClose, withCloseButton }: Props) {
                     color="dark"
                     radius="xs"
                     size="xl"
-                    {...form.getInputProps('kasyno')}
-
+                    {...form.getInputProps("kasyno")}
                   />
-                </Center>
-              </Grid.Col>
-              <Grid.Col span={6}>
-                <Center>
+
                   <Checkbox
                     labelPosition="left"
                     label="Pizza"
@@ -184,10 +179,9 @@ export function AddMeetingModal({ opened, onClose, withCloseButton }: Props) {
                     color="red"
                     radius="xs"
                     size="xl"
-                    {...form.getInputProps('pizza')}
-
+                    {...form.getInputProps("pizza")}
                   />
-                </Center>
+                </Group>
               </Grid.Col>
             </Grid>
           </Grid.Col>

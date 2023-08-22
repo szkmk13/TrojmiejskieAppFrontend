@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import Home from "./app/Home/Home.tsx";
 import Meetings from "./app/Meetings/Meetings.tsx";
 import Data from "./app/Data/Data.tsx";
+import Profile from "./app/Profile/Profile.tsx";
 import PatchNotes from "./app/PatchNotes/PatchNotes.tsx";
 import NotImplemented from "./app/Notimplemented/NotImplemented.tsx";
 import reportWebVitals from "./reportWebVitals";
@@ -14,7 +15,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
   { path: "/meetings", element: <Meetings /> },
-  { path: "/profile", element: <NotImplemented /> },
+  { path: "/profile", element: <Profile /> },
   { path: "/data", element: <Data /> },
   { path: "/patch_notes", element: <PatchNotes /> },
   { path: "/bets", element: <NotImplemented /> },

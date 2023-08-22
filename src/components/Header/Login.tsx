@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { useDisclosure } from '@mantine/hooks';
 import { Modal, Button, Group, PasswordInput, Input } from '@mantine/core';
-import "./style.css";
-import { IconAt } from '@tabler/icons-react';
 
 export function Login() {
   const [loggedIn, setLoggedIn] = useState(false);

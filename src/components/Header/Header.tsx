@@ -14,6 +14,7 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { TrojmiejskieLogo } from "../Logo/TrojmiejskieLogo";
 import { NavbarApp } from "./components/NavbarApp";
+import { useAuthStore } from "authStore";
 
 const useStyles = createStyles((theme) => ({
   hiddenMobile: {
@@ -28,23 +29,23 @@ const useStyles = createStyles((theme) => ({
     },
   },
 }));
-interface Props {
-  loggedIn: boolean;
-  handleLogin: () => void;
-}
-export function HeaderApp({ handleLogin, loggedIn }: Props) {
+
+export function HeaderApp() {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const { classes, theme } = useStyles();
+  const loggedIn = useAuthStore(state => state.loggedin)
+  const logInUser = useAuthStore(state => state.logIn)
+  const logOutUser = useAuthStore(state => state.logOut)
 
   return (
     <Box pb={20} style={{ position: "sticky" }}>
       <Header height={60} px="md">
-        <Group position="apart" sx={{ height: "100%" }}>
+        <Group position="apart" >
           <TrojmiejskieLogo />
 
           <Group
-            sx={{ height: "100%" }}
+           
             spacing={0}
             className={classes.hiddenMobile}
           >
@@ -52,10 +53,11 @@ export function HeaderApp({ handleLogin, loggedIn }: Props) {
           </Group>
 
           <Group className={classes.hiddenMobile}>
+
             <Button
               variant="gradient"
               gradient={{ from: "#ed6ea0", to: "#ec8c69", deg: 35 }}
-              onClick={handleLogin}
+              onClick={loggedIn? logOutUser:logInUser}
             >
               {loggedIn?'Log out':"Log in"}
             </Button>

@@ -8,6 +8,7 @@ import {
   Paper,
   Text,
 } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
 export default function DateFilter() {
   const months = [
     "Styczeń",
@@ -23,6 +24,11 @@ export default function DateFilter() {
     "Listopad",
     "Grudzień",
   ];
+  const years = [
+    "All time", "2022", "2023"
+  ]
+  const isMobile = useMediaQuery("(max-width: 1000px)");
+
   return (
       <Group position="center" spacing="md" pb={20}>
         <Grid gutter="md">
@@ -33,15 +39,14 @@ export default function DateFilter() {
                 flexWrap: "wrap",
               }}
             >
-              <Grid.Col span={6}style={{ flexBasis: "15%" }}>
-                  <Button radius="xl" fz={30}variant="outline">All Time</Button>
-              </Grid.Col>
-              <Grid.Col span={6}style={{ flexBasis: "15%" }} >
-                  <Button radius="xl" fz={30}variant="outline">2022</Button>
-              </Grid.Col>
-              <Grid.Col span={6}style={{ flexBasis: "15%" }} >
-                  <Button radius="xl" fz={30}variant="outline">2023</Button>
-              </Grid.Col>
+              
+              {years.map((year) => (
+                <Grid.Col span={isMobile? 12:6} style={{ flexBasis: "15%" }}>
+                  <Center>
+                    <Button radius="xl" size="lg" variant="outline" >{year}</Button>
+                  </Center>
+                </Grid.Col>
+              ))}
             </Grid>
           </Grid.Col>
 

@@ -33,9 +33,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <>
       <Head />
-      <HeaderApp handleLogin={logInUser} loggedIn={auth}/>
-      <Button onClick={logInUser}>log in </Button>
-      <Button onClick={logOutUser}>log out</Button>
+      <HeaderApp/>
+      {/* <Button onClick={logInUser}>log in </Button>
+      <Button onClick={logOutUser}>log out</Button> */}
       {auth ? children : <NotLoggedIn handleLogin={logInUser} />}
     </>
   );

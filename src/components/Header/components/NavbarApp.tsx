@@ -5,9 +5,8 @@ import { useState } from "react";
 export function NavbarApp() {
   const useStyles = createStyles((theme) => ({
     link: {
-      display: "flex",
-      alignItems: "center",
-      height: "100%",
+  
+     
       paddingLeft: theme.spacing.md,
       paddingRight: theme.spacing.md,
       paddingBottom: theme.spacing.sm,
