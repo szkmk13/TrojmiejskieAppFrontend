@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Button, Center, Grid, Text } from "@mantine/core";
+import React from "react";
+import { Grid, Text } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 
 interface Props {

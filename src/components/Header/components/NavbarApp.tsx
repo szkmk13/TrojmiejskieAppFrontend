@@ -1,12 +1,9 @@
-import { Title, Text, rem, createStyles, Box } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import {  createStyles } from "@mantine/core";
 import { useState } from "react";
 
 export function NavbarApp() {
   const useStyles = createStyles((theme) => ({
     link: {
-  
-     
       paddingLeft: theme.spacing.md,
       paddingRight: theme.spacing.md,
       paddingBottom: theme.spacing.sm,
@@ -27,6 +24,7 @@ export function NavbarApp() {
     { name: "Patch notes", href: "/patch_notes" },
     { name: "Bets", href: "/bets" },
   ];
+  // eslint-disable-next-line
   const [newMettings, setnewMettings] = useState(false);
   // pobiera info z backendu i jezeli lista nie jest pusta to zmienia na true
 

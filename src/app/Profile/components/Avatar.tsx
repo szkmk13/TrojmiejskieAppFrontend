@@ -15,12 +15,12 @@ interface UserInfoIconsProps {
   avatar: string;
   name: string;
   title: string;
-  phone: string;
-  email: string;
+  messages: string;
+  kosaCoins: string;
   height: string;
 }
 
-export default function UserInfo({ avatar, name, title, phone, email, height }: UserInfoIconsProps) {
+export default function UserInfo({ avatar, name, title, messages, kosaCoins, height }: UserInfoIconsProps) {
   const { classes } = useStyles();
 
   return (
@@ -39,14 +39,13 @@ export default function UserInfo({ avatar, name, title, phone, email, height }: 
           <Group noWrap spacing={10} mt={3}>
             <IconAt stroke={1.5} size="1rem" className={classes.icon} />
             <Text fz="xl" c="dimmed">
-              {email}
+              {kosaCoins} Kosa Coins
             </Text>
           </Group>
 
           <Group noWrap spacing={10} mt={5}>
-            <IconPhoneCall stroke={1.5} size="6rem" className={classes.icon} />
             <Text fz="xl" c="dimmed">
-              {phone}
+              {messages} wiadomości
             </Text>
           </Group>
         </div>

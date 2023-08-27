@@ -5,6 +5,7 @@ import Meetings from "./app/Meetings/Meetings.tsx";
 import Data from "./app/Data/Data.tsx";
 import Profile from "./app/Profile/Profile.tsx";
 import PatchNotes from "./app/PatchNotes/PatchNotes.tsx";
+import Bets from "./app/Bets/Bets.tsx";
 import NotImplemented from "./app/Notimplemented/NotImplemented.tsx";
 import reportWebVitals from "./reportWebVitals";
 import RootLayout from "./app/layout.tsx";
@@ -18,7 +19,7 @@ const router = createBrowserRouter([
   { path: "/profile", element: <Profile /> },
   { path: "/data", element: <Data /> },
   { path: "/patch_notes", element: <PatchNotes /> },
-  { path: "/bets", element: <NotImplemented /> },
+  { path: "/bets", element: <Bets /> },
 ]);
 const queryClient = new QueryClient({
   defaultOptions: {

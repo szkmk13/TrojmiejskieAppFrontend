@@ -6,14 +6,12 @@ import {
   Checkbox,
   Button,
   Modal,
-  ScrollArea,
   Group,
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
-import { useMediaQuery, useDisclosure } from "@mantine/hooks";
+import { useMediaQuery } from "@mantine/hooks";
 import { IconCalendar } from "@tabler/icons-react";
 import { useState } from "react";
-import * as Yup from "yup";
 import { useForm, yupResolver } from "@mantine/form";
 import { addmeetingschema } from "./addMeetings.validation";
 
@@ -41,6 +39,7 @@ export function AddMeetingModal({ opened, onClose, withCloseButton }: Props) {
   const [whoDrink, setWhoDrink] = useState([]);
   const [options_who_drink, setOptionsWhoDrink] = useState([]);
   const [dateValue, setDateValue] = useState(new Date());
+  // eslint-disable-next-line
   const [selectedDate, setSelectedDate] = useState([]);
 
   const meetingPlaces = ["a", "b"];

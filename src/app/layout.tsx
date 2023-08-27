@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { HeaderApp } from "../components/Header/Header.tsx";
 import Head from "./head.tsx";
 import NotLoggedIn from "./Notimplemented/NotLoggedIn.tsx";
 import {useAuthStore} from 'authStore.js'
-import { Button } from "@mantine/core";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const [loggedIn, setLoggedIn] = useState(false);
 
   // useEffect(() => {
   //   const token = localStorage.getItem('token');

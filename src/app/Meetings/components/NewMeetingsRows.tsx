@@ -1,7 +1,5 @@
-import { useQuery } from "react-query";
-import { PENDING_MEETINGS_URL, authHeaders } from "utils/api/api";
 import { TableRow } from "./../../../components/Table/TableRowAndHead";
-import { Button, Center, Skeleton } from "@mantine/core";
+import { Button, Center } from "@mantine/core";
 
 export default function NewMeetingsRows() {
 

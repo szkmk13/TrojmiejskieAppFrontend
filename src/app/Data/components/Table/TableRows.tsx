@@ -1,13 +1,9 @@
 import { MostRecentWord } from "./MostRecentWord";
 import { Trojmiejski } from "./Trojmiejski";
 import { TableRow } from "./../../../../components/Table/TableRowAndHead";
-import { TrojmiejskiModal } from "./TrojmiejskiModal";
-import { useDisclosure } from "@mantine/hooks";
 
 
 export default function TableRows() {
-  const [opened, { open, close }] = useDisclosure(false);
-
   const users = [
     {
       id: 1,

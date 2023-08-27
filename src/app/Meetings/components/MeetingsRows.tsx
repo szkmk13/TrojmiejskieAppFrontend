@@ -1,7 +1,6 @@
 import { TableRow } from "./../../../components/Table/TableRowAndHead.tsx";
-import { Center, Skeleton } from "@mantine/core";
-import { useQuery } from "react-query";
-import { MEETINGS_URL, authHeaders } from "../../../utils/api/api.tsx";
+import { Center } from "@mantine/core";
+
 
 export default function MeetingsRows() {
   const data = [
