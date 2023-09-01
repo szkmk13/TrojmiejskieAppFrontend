@@ -9,6 +9,7 @@ import {
   useMantineTheme,
   rem,
 } from "@mantine/core";
+import { useQuery } from "react-query";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -39,12 +40,18 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface CardProps {
-  image: string;
-  title: string;
-  category: string;
+  deadline: string;
+  yes_ratio: string;
+  yes_label: string;
+  open: boolean;
+  text: string;
+  total: string;
+  no_label: string;
+  no_ratio: string;
+
 }
 
-function Card({ image, title, category }: CardProps) {
+function Card({...props}: CardProps) {
   const { classes } = useStyles();
 
   return (
@@ -52,31 +59,31 @@ function Card({ image, title, category }: CardProps) {
       shadow="md"
       p="xl"
       radius="md"
-      sx={{ backgroundImage: `url(${image})` }}
+      sx={{ backgroundColor: `black` }}
       className={classes.card}
     >
       <div>
         <Title order={3} className={classes.title}>
-          {title}
+          {props.text}
         </Title>
         <Text className={classes.category} size="xl">
-          Do wygrania: 200 kosacoins
+          Do wygrania: {props.total} kosacoins
         </Text>
       </div>
       <div style={{ display: 'flex', justifyContent: 'space-around', width:'100%',marginTop:'40px'}}>
         <Title order={3} className={classes.title}>
-          1.5
+          {props.yes_ratio}
         </Title>
         <Title order={2} className={classes.title}>
-          3.42
+        {props.no_ratio}
         </Title>
       </div>
       <div style={{ display: 'flex', justifyContent: 'space-around', width:'100%'}}>
         <Button variant="white" color="dark" sx={{display:'flex'}} size="lg">
-          Bet tak
+          Bet {props.yes_label}
         </Button>
         <Button variant="white" color="dark" sx={{display:'flex'}}size="lg">
-          Bet nie
+          Bet {props.no_label}
         </Button>
       </div>
     </Paper>
@@ -125,21 +132,41 @@ const data = [
 export default function Bets() {
   const theme = useMantineTheme();
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
-  const slides = data.map((item) => (
+  const apicall = async () => {
+    const AccessToken = localStorage.getItem('access_token')
+    const res = await fetch("https://szymon.kowalski.cybulski.dev/api/bets/", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + AccessToken
+      },
+    });
+    const data = await res.json();
+    return data;
+  };
+  
+  const {data:bets, error, isLoading} = useQuery('login', apicall);
+  if(isLoading){
+    return <Text>LOADING</Text>
+  }
+  if (bets) {
+      console.log(bets)
+      const slides = bets.map((item) => (
     <Carousel.Slide key={item.title}>
       <Card {...item} />
     </Carousel.Slide>
   ));
+    return (
+      <Carousel
+        slideSize="20%"
+        breakpoints={[{ maxWidth: "sm", slideSize: "90%", slideGap: rem(2) }]}
+        slideGap="xl"
+        align="start"
+        slidesToScroll={mobile ? 1 : 2}
+      >
+        {slides}
+      </Carousel>
+    );
+  }
 
-  return (
-    <Carousel
-      slideSize="20%"
-      breakpoints={[{ maxWidth: "sm", slideSize: "90%", slideGap: rem(2) }]}
-      slideGap="xl"
-      align="start"
-      slidesToScroll={mobile ? 1 : 2}
-    >
-      {slides}
-    </Carousel>
-  );
 }

@@ -10,11 +10,17 @@ import {
   ScrollArea,
   rem,
   Text,
+  Modal,
+  TextInput,
+  PasswordInput,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { TrojmiejskieLogo } from "../Logo/TrojmiejskieLogo";
 import { NavbarApp } from "./components/NavbarApp";
-import { useAuthStore } from "authStore";
+import { apicall, useAuthStore } from "authStore";
+import { useForm, yupResolver } from "@mantine/form";
+import { loginschema } from "./components/Login.validation";
+import { useQuery } from "react-query";
 
 const useStyles = createStyles((theme) => ({
   hiddenMobile: {
@@ -34,32 +40,103 @@ export function HeaderApp() {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const { classes, theme } = useStyles();
-  const loggedIn = useAuthStore(state => state.loggedin)
-  const logInUser = useAuthStore(state => state.logIn)
-  const logOutUser = useAuthStore(state => state.logOut)
 
+  const loggedIn = useAuthStore((state) => state.loggedin);
+  const logInUser = useAuthStore((state) => state.logIn);
+  const logOutUser = useAuthStore((state) => state.logOut);
+
+  const [LoginModalOpened, { toggle: openLoginModal, close: closeLoginModal }] =
+    useDisclosure(false);
+  const form = useForm({
+    validate: yupResolver(loginschema),
+    initialValues: {
+      username: "",
+      password: "",
+    },
+  });
+  const HandleUserLogin = async (values) => {
+    console.log(values);
+
+    const payload = values;
+
+    const res = await fetch("https://szymon.kowalski.cybulski.dev/api/token/", {
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await res.json();
+    if (res.status === 200) {
+      console.log("200");
+      const a = data.refresh
+      console.log(a)
+      localStorage.setItem("refresh_token",data.refresh);
+      localStorage.setItem("access_token",data.access);
+      const token = localStorage.getItem("access_token")
+      var base64Url = token.split('.')[1];
+      var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      const decoded = JSON.parse(jsonPayload)
+      localStorage.setItem("name",decoded.name);
+      localStorage.setItem("user_id",decoded.user_id);
+      closeLoginModal();
+      logInUser();
+    } else {
+          console.log(data);
+    console.log(res.status);
+    // form.reset();
+    alert("wrong username or password");
+    }
+
+  };
+  const HandleUserLogout = async () => {
+    localStorage.removeItem("refresh_token");
+    localStorage.removeItem("access_token");
+    logOutUser()
+    }
+
+  
   return (
     <Box pb={20} style={{ position: "sticky" }}>
+      <Modal opened={LoginModalOpened} onClose={closeLoginModal} title="Log in">
+        <form onSubmit={form.onSubmit((values) => HandleUserLogin(values))}>
+          <Box maw={320} mx="auto">
+            <TextInput
+              label="Username"
+              placeholder="username"
+              withAsterisk
+              {...form.getInputProps("username")}
+            />
+            <PasswordInput
+              mt="md"
+              label="Password"
+              placeholder="Password"
+              {...form.getInputProps("password")}
+            />
+          </Box>
+          <Button size="lg" type="submit">
+            Log in
+          </Button>
+        </form>
+      </Modal>
       <Header height={60} px="md">
-        <Group position="apart" >
+        <Group position="apart">
           <TrojmiejskieLogo />
 
-          <Group
-           
-            spacing={0}
-            className={classes.hiddenMobile}
-          >
+          <Group spacing={0} className={classes.hiddenMobile}>
             <NavbarApp />
           </Group>
 
           <Group className={classes.hiddenMobile}>
-
             <Button
               variant="gradient"
               gradient={{ from: "#ed6ea0", to: "#ec8c69", deg: 35 }}
-              onClick={loggedIn? logOutUser:logInUser}
+              onClick={loggedIn ? HandleUserLogout : openLoginModal}
             >
-              {loggedIn?'Log out':"Log in"}
+              {loggedIn ? (localStorage.getItem("name") + ' Log out') : "Log in"}
             </Button>
           </Group>
 
@@ -94,11 +171,12 @@ export function HeaderApp() {
           />
 
           <Group position="center" grow pb="xl" px="md">
-            <Button
+          <Button
               variant="gradient"
               gradient={{ from: "#ed6ea0", to: "#ec8c69", deg: 35 }}
+              onClick={loggedIn ? HandleUserLogout : openLoginModal}
             >
-              Log in
+              {loggedIn ? (localStorage.getItem("name") + ' Log out') : "Log in"}
             </Button>
           </Group>
         </ScrollArea>
