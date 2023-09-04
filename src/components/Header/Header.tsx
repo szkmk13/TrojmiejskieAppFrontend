@@ -17,10 +17,9 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { TrojmiejskieLogo } from "../Logo/TrojmiejskieLogo";
 import { NavbarApp } from "./components/NavbarApp";
-import { apicall, useAuthStore } from "authStore";
+import { useAuthStore } from "authStore";
 import { useForm, yupResolver } from "@mantine/form";
 import { loginschema } from "./components/Login.validation";
-import { useQuery } from "react-query";
 
 const useStyles = createStyles((theme) => ({
   hiddenMobile: {
@@ -69,36 +68,40 @@ export function HeaderApp() {
     const data = await res.json();
     if (res.status === 200) {
       console.log("200");
-      const a = data.refresh
-      console.log(a)
-      localStorage.setItem("refresh_token",data.refresh);
-      localStorage.setItem("access_token",data.access);
-      const token = localStorage.getItem("access_token")
-      var base64Url = token.split('.')[1];
-      var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
-          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      }).join(''));
-      const decoded = JSON.parse(jsonPayload)
-      localStorage.setItem("name",decoded.name);
-      localStorage.setItem("user_id",decoded.user_id);
+      const a = data.refresh;
+      console.log(a);
+      localStorage.setItem("refresh_token", data.refresh);
+      localStorage.setItem("access_token", data.access);
+      const token = localStorage.getItem("access_token");
+      var base64Url = token.split(".")[1];
+      var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+      var jsonPayload = decodeURIComponent(
+        window
+          .atob(base64)
+          .split("")
+          .map(function (c) {
+            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+          })
+          .join("")
+      );
+      const decoded = JSON.parse(jsonPayload);
+      localStorage.setItem("name", decoded.name);
+      localStorage.setItem("user_id", decoded.user_id);
       closeLoginModal();
       logInUser();
     } else {
-          console.log(data);
-    console.log(res.status);
-    // form.reset();
-    alert("wrong username or password");
+      console.log(data);
+      console.log(res.status);
+      // form.reset();
+      alert("wrong username or password");
     }
-
   };
   const HandleUserLogout = async () => {
     localStorage.removeItem("refresh_token");
     localStorage.removeItem("access_token");
-    logOutUser()
-    }
+    logOutUser();
+  };
 
-  
   return (
     <Box pb={20} style={{ position: "sticky" }}>
       <Modal opened={LoginModalOpened} onClose={closeLoginModal} title="Log in">
@@ -136,7 +139,7 @@ export function HeaderApp() {
               gradient={{ from: "#ed6ea0", to: "#ec8c69", deg: 35 }}
               onClick={loggedIn ? HandleUserLogout : openLoginModal}
             >
-              {loggedIn ? (localStorage.getItem("name") + ' Log out') : "Log in"}
+              {loggedIn ? localStorage.getItem("name") + " Log out" : "Log in"}
             </Button>
           </Group>
 
@@ -171,12 +174,12 @@ export function HeaderApp() {
           />
 
           <Group position="center" grow pb="xl" px="md">
-          <Button
+            <Button
               variant="gradient"
               gradient={{ from: "#ed6ea0", to: "#ec8c69", deg: 35 }}
               onClick={loggedIn ? HandleUserLogout : openLoginModal}
             >
-              {loggedIn ? (localStorage.getItem("name") + ' Log out') : "Log in"}
+              {loggedIn ? localStorage.getItem("name") + " Log out" : "Log in"}
             </Button>
           </Group>
         </ScrollArea>
