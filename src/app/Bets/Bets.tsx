@@ -3,13 +3,14 @@ import { useMediaQuery } from "@mantine/hooks";
 import { useMantineTheme, rem, Skeleton } from "@mantine/core";
 import { useQuery } from "react-query";
 import { Bet } from "./compontents/BetCard";
+import { APIROOT } from "utils/api/api";
 
 export default function Bets() {
   const theme = useMantineTheme();
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
   const apicall = async () => {
     const AccessToken = localStorage.getItem("access_token");
-    const res = await fetch("https://szymon.kowalski.cybulski.dev/api/bets/", {
+    const res = await fetch(APIROOT + "api/bets/", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

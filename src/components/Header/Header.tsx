@@ -20,6 +20,7 @@ import { NavbarApp } from "./components/NavbarApp";
 import { useAuthStore } from "authStore";
 import { useForm, yupResolver } from "@mantine/form";
 import { loginschema } from "./components/Login.validation";
+import { APIROOT } from "utils/api/api";
 
 const useStyles = createStyles((theme) => ({
   hiddenMobile: {
@@ -36,6 +37,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export function HeaderApp() {
+
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const { classes, theme } = useStyles();
@@ -54,11 +56,13 @@ export function HeaderApp() {
     },
   });
   const HandleUserLogin = async (values) => {
+
     console.log(values);
+
 
     const payload = values;
 
-    const res = await fetch("https://szymon.kowalski.cybulski.dev/api/token/", {
+    const res = await fetch(APIROOT+"token/", {
       method: "POST",
       body: JSON.stringify(payload),
       headers: {

@@ -1,6 +1,8 @@
 import { Modal, Box, NumberInput, Center, Button } from "@mantine/core";
 import { useForm, yupResolver } from "@mantine/form";
 import { betschema } from "./Bet.validation";
+import { useQueryClient } from "react-query";
+import { APIROOT } from "utils/api/api";
 
 interface BetModalProps {
   opened: boolean;
@@ -10,18 +12,35 @@ interface BetModalProps {
   bet_id: number;
 }
 export function BetModal({ ...props }: BetModalProps) {
+  const queryClient = useQueryClient()
   const form = useForm({
     validate: yupResolver(betschema),
     initialValues: {
       amount: 0,
-      id: props.bet_id,
+      bet_id: props.bet_id,
       vote: props.yes_or_no,
     },
   });
   const HandleBetSumbit = async (values) => {
     values.trojmiejski = localStorage.getItem("user_id");
     console.log(values);
-    /// todo send request to place bet to backend with {values}
+    const payload = values;
+    const res = await fetch(APIROOT + "bets/vote/", {
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (res.status === 200) {
+      form.reset()
+      props.close()
+      queryClient.invalidateQueries(['bets'])
+    } else {
+      const data = await res.json()
+      alert(Object.entries(data));
+    }
+
   };
   return (
     <Modal opened={props.opened} onClose={props.close}>
