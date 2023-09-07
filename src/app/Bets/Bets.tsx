@@ -10,7 +10,7 @@ export default function Bets() {
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
   const apicall = async () => {
     const AccessToken = localStorage.getItem("access_token");
-    const res = await fetch(APIROOT + "api/bets/", {
+    const res = await fetch(APIROOT + "bets/", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
