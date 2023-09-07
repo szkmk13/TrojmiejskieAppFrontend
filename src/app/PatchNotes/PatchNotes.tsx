@@ -14,7 +14,7 @@ import { useQuery } from "react-query";
 import { PATCH_NOTES_URL, authHeaders } from "utils/api/api";
 export default function PatchNotes() {
   const getPatchNotes = async () => {
-    const res = await fetch(PATCH_NOTES_URL, authHeaders);
+    const res = await fetch(PATCH_NOTES_URL);
     if (res.status === 401) throw new Error("An error occurred");
     if (res.status === 200) return res.json();
   };
