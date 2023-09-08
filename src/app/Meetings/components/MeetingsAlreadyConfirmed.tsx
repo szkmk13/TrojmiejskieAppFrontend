@@ -1,15 +1,15 @@
 import { useQuery } from "react-query";
 import { MEETINGS_URL } from "utils/api/api.tsx";
 import { TableRow } from "./../../../components/Table/TableRowAndHead.tsx";
-import { Center, Skeleton } from "@mantine/core";
+import { Center, Loader, Skeleton } from "@mantine/core";
 
 
-export default function MeetingsRows() {
-
-  const getMeetings = async () => {
+export default function MeetingsAlreadyConfirmed() {
+ 
+  const getWaitingMeetings = async () => {
     const access_token = localStorage.getItem("access_token");
 
-    const res = await fetch(MEETINGS_URL, {
+    const res = await fetch(MEETINGS_URL+'waiting/', {
       headers: {
         Authorization: "Bearer " + access_token,
       },
@@ -17,7 +17,7 @@ export default function MeetingsRows() {
     if (res.status === 401) throw new Error("An error occurred");
     if (res.status === 200) return res.json();
   };
-  const { data, error, isLoading } = useQuery("meetings", getMeetings);
+  const { data, error, isLoading } = useQuery("waitingMeetings", getWaitingMeetings);
 
   if (error)
     return (
@@ -76,7 +76,7 @@ export default function MeetingsRows() {
             />
             <TableRow data={meeting.pizza ? "✔️" : "❌"} />
             <TableRow data={meeting.kasyno ? "✔️" : "❌"} />
-            <TableRow data={meeting.confirmed ? "✔️" : "❌"} />
+            <TableRow data={<Loader />} />
           </tr>
         ))}
       </>

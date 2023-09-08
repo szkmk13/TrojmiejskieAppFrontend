@@ -1,6 +1,13 @@
 import React, { useState } from "react";
-import { useDisclosure } from '@mantine/hooks';
-import { Modal, Button, Group, PasswordInput, Input } from '@mantine/core';
+import { useDisclosure } from "@mantine/hooks";
+import {
+  Modal,
+  Button,
+  Group,
+  PasswordInput,
+  Input,
+  Center,
+} from "@mantine/core";
 
 export function Login() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -32,25 +39,29 @@ export function Login() {
     <>
       <div className="Navbar-subpage">
         {loggedIn ? (
-          <span>Hello, {username}
-           <a href="#" className="" onClick={handleLogin}>Logout</a>
-          
+          <span>
+            Hello, {username}
+            <a href="#" className="" onClick={handleLogin}>
+              Logout
+            </a>
           </span>
         ) : (
-          <><Modal opened={opened} onClose={close} title="Logowanie">
-            <Input.Wrapper label="Nick">
-              <Input></Input>
-            </Input.Wrapper>
-            <PasswordInput
-              placeholder="Password"
-              label="Hasło"
-              withAsterisk
-            />
-              {/* Modal content */}
+          <>
+            <Modal opened={opened} onClose={close} title="Logowanie">
+              <Input.Wrapper label="Nick">
+                <Input></Input>
+              </Input.Wrapper>
+              <PasswordInput
+                placeholder="Password"
+                label="Hasło"
+                withAsterisk
+              />
             </Modal>
-            <Group position="center">
+            <Center>
+              <Group position="center">
                 <Button onClick={open}>Log in</Button>
-            </Group>
+              </Group>
+            </Center>
           </>
         )}
       </div>

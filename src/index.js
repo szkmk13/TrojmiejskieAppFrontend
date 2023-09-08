@@ -11,6 +11,7 @@ import reportWebVitals from "./reportWebVitals";
 import RootLayout from "./app/layout.tsx";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { useAuthStore } from "./authStore.js";
+import { Notifications } from "@mantine/notifications";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 const router = createBrowserRouter([
@@ -32,6 +33,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <RootLayout>
+      <Notifications position="top-right" />
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
       </QueryClientProvider>

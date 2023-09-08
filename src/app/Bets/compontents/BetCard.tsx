@@ -1,6 +1,17 @@
-import { Paper, Title, Button, createStyles, rem, Text } from "@mantine/core";
+import {
+  Paper,
+  Title,
+  Button,
+  createStyles,
+  rem,
+  Text,
+  ThemeIcon,
+  Popover,
+  Group,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { BetModal } from "./BetModal";
+import { IconCoin } from "@tabler/icons-react";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -47,6 +58,11 @@ export function Bet({ ...props }: CardProps) {
     useDisclosure(false);
   const [BetModalOpenedNo, { toggle: OpenBetModalNo, close: CloseBetModalNo }] =
     useDisclosure(false);
+  const [kosaCoin, { toggle: ShowKosaCoin, close: CloseKosaCoin }] =
+    useDisclosure(false);
+
+  const today = props.deadline;
+  const date = props.deadline.split("T")[0];
 
   return (
     <Paper
@@ -70,14 +86,38 @@ export function Bet({ ...props }: CardProps) {
         bet_id={props.id}
         yes_or_no={false}
       />
-
+      <Text className={classes.category}>Deadline {date}</Text>
       <div>
         <Title order={3} className={classes.title}>
           {props.text}
         </Title>
-        <Text className={classes.category} size="xl">
-          Do wygrania: {props.total} kosacoins
-        </Text>
+        <Group>
+          <Text className={classes.category} size="xl">
+            Total: {props.total}
+          </Text>
+          <Popover
+            width={'auto'}
+            position="bottom"
+            withArrow
+            shadow="md"
+            opened={kosaCoin}
+          >
+            <Popover.Target>
+              <ThemeIcon
+                radius="xl"
+                size="sm"
+                color="yellow"
+                onMouseEnter={ShowKosaCoin}
+                onMouseLeave={CloseKosaCoin}
+              >
+                <IconCoin />
+              </ThemeIcon>
+            </Popover.Target>
+            <Popover.Dropdown sx={{ pointerEvents: "none" }}>
+              <Text size="sm">Kosa Coins</Text>
+            </Popover.Dropdown>
+          </Popover>
+        </Group>
       </div>
       <div
         style={{

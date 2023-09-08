@@ -2,11 +2,8 @@ import React from "react";
 import { Grid, Text } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 
-interface Props {
-    handleLogin: () => void;
-  }
 
-export default function NotLoggedIn({ handleLogin }: Props) {
+export default function NotLoggedIn() {
   const isMobile = useMediaQuery("(max-width: 1000px)");
 
   return (

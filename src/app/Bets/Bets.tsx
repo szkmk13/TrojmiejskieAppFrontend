@@ -1,6 +1,6 @@
 import { Carousel } from "@mantine/carousel";
 import { useMediaQuery } from "@mantine/hooks";
-import { useMantineTheme, rem, Skeleton } from "@mantine/core";
+import { useMantineTheme, rem, Skeleton, Text } from "@mantine/core";
 import { useQuery } from "react-query";
 import { Bet } from "./compontents/BetCard";
 import { APIROOT } from "utils/api/api";
@@ -32,15 +32,18 @@ export default function Bets() {
       </Carousel.Slide>
     ));
     return (
-      <Carousel
-        slideSize="20%"
-        breakpoints={[{ maxWidth: "sm", slideSize: "90%", slideGap: rem(2) }]}
-        slideGap="xl"
-        align="start"
-        slidesToScroll={mobile ? 1 : 2}
-      >
-        {slides}
-      </Carousel>
+      <>
+        {/* <Text>23</Text> */}
+        <Carousel
+          slideSize="20%"
+          breakpoints={[{ maxWidth: "sm", slideSize: "90%", slideGap: rem(2) }]}
+          slideGap="xl"
+          align="start"
+          slidesToScroll={mobile ? 1 : 2}
+        >
+          {slides}
+        </Carousel>
+      </>
     );
   }
 }

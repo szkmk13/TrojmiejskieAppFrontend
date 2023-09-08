@@ -14,7 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <>
       <Head />
       <HeaderApp/>
-      {auth ? children : <NotLoggedIn handleLogin={logInUser} />}
+      {auth ? children : <NotLoggedIn />}
     </>
   );
 }

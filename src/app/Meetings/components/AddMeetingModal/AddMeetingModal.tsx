@@ -11,9 +11,11 @@ import {
 import { DatePickerInput } from "@mantine/dates";
 import { useMediaQuery } from "@mantine/hooks";
 import { IconCalendar } from "@tabler/icons-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, yupResolver } from "@mantine/form";
 import { addmeetingschema } from "./addMeetings.validation";
+import { APIROOT, PLACES } from "utils/api/api";
+import { useQuery, useQueryClient } from "react-query";
 
 interface Props {
   opened: boolean;
@@ -26,39 +28,47 @@ export function AddMeetingModal({ opened, onClose, withCloseButton }: Props) {
     validate: yupResolver(addmeetingschema),
     initialValues: {
       participants: [],
-      who_drink: [],
+      who_drank: [],
       place: null,
       date: null,
       kasyno: false,
       pizza: false,
     },
   });
+  const queryClient = useQueryClient()
 
   const isMobile = useMediaQuery("(max-width: 1000px)");
   const [participants, setParticipants] = useState([]);
   const [whoDrink, setWhoDrink] = useState([]);
-  const [options_who_drink, setOptionsWhoDrink] = useState([]);
+  const [options_who_drank, setOptionsWhoDrink] = useState([]);
   const [dateValue, setDateValue] = useState(new Date());
   // eslint-disable-next-line
   const [selectedDate, setSelectedDate] = useState([]);
 
-  const meetingPlaces = ["a", "b"];
-  // const places = async () => {
-  //   const res = await fetch(PLACES, authHeaders);
-  //     if (res.status === 401) throw new Error("An error occurred");
-  //   return res.json();
-  // };
-  // const { data, error, isLoading } = useQuery("places", places);
-  // const [meetingPlaces, setMeetingPlaces] = useState([]);
-  // useEffect(() => {
-  //   if (data) {
-  //     const transformedData = data.map((item) => ({
-  //       value: item,
-  //       label: item,
-  //     }));
-  //     setMeetingPlaces(transformedData);
-  //   }
-  // }, [data]);
+  // const meetingPlaces = ["a", "b"];
+  const places = async () => {
+    const access_token = localStorage.getItem("access_token");
+
+    const res = await fetch(PLACES, {
+      headers: {
+        Authorization: "Bearer " + access_token,
+      },
+    });
+      if (res.status === 401) throw new Error("An error occurred");
+    return res.json();
+  };
+  const { data:meetingplaces, error, isLoading } = useQuery("places", places);
+  const [meetingPlaces, setMeetingPlaces] = useState([]);
+  
+  useEffect(() => {
+    if (meetingplaces) {
+      const transformedData = meetingplaces.map((item) => ({
+        value: item,
+        label: item,
+      }));
+      setMeetingPlaces(transformedData);
+    }
+  }, [meetingplaces]);
 
   const options = [
     { value: "1", label: "Szymon Kowalski" },
@@ -88,13 +98,36 @@ export function AddMeetingModal({ opened, onClose, withCloseButton }: Props) {
   };
   const handleSecondMultiselectChange = (value) => {
     setWhoDrink(value);
-    form.setFieldValue("who_drink", value);
+    form.setFieldValue("who_drank", value);
   };
+
+
+
   const sendNewMeeting = async (values) => {
-    console.log(values);
-    console.log("wyslano");
-    form.reset();
-    onClose();
+    const access_token = localStorage.getItem("access_token");
+    values.trojmiejski = localStorage.getItem("user_id");
+    const payload = values;
+    console.log(values.date)
+    const res = await fetch(APIROOT + "meetings/", {
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + access_token,
+      },
+    })
+    if (res.status === 201) {
+      form.reset()
+      onClose()
+      queryClient.invalidateQueries(["pendingMettings"]);
+      queryClient.invalidateQueries(["waitingMeetings"]);
+
+      queryClient.invalidateQueries(["meetings"]);
+    } else {
+      const data = await res.json()
+      alert(Object.entries(data));
+    }
+
   };
 
   return (
@@ -150,14 +183,13 @@ export function AddMeetingModal({ opened, onClose, withCloseButton }: Props) {
                 <MultiSelect
                   size="md"
                   value={whoDrink}
-                  data={options_who_drink}
+                  data={options_who_drank}
                   onChange={handleSecondMultiselectChange}
                   label="Pijący"
                   mx="auto"
                   maw={300}
                 />
               </Grid.Col>
-              
 
               <Grid.Col span={12}>
                 <Group position="center">
@@ -187,7 +219,6 @@ export function AddMeetingModal({ opened, onClose, withCloseButton }: Props) {
           <Grid.Col span={12}>
             <Center>
               <Button
-                // onClick={sendNewMeeting}
                 variant="gradient"
                 gradient={{ from: "#ed6ea0", to: "#ec8c69", deg: 35 }}
                 size="lg"

@@ -1,4 +1,4 @@
-import {  createStyles } from "@mantine/core";
+import { createStyles } from "@mantine/core";
 import { useState } from "react";
 
 export function NavbarApp() {
@@ -24,15 +24,9 @@ export function NavbarApp() {
     { name: "Patch notes", href: "/patch_notes" },
     { name: "Bets", href: "/bets" },
   ];
-  // eslint-disable-next-line
-  const [newMettings, setnewMettings] = useState(false);
-  // pobiera info z backendu i jezeli lista nie jest pusta to zmienia na true
-
   return (
     <>
       {navigation.map((item, id) => (
-        item.name==='Meetings' && newMettings ?
-        <div></div> : 
         <a key={id} href={item.href} className={classes.link}>
           {item.name}
         </a>

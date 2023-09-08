@@ -13,6 +13,7 @@ import {
   Modal,
   TextInput,
   PasswordInput,
+  Center,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { TrojmiejskieLogo } from "../Logo/TrojmiejskieLogo";
@@ -37,7 +38,6 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export function HeaderApp() {
-
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const { classes, theme } = useStyles();
@@ -56,13 +56,11 @@ export function HeaderApp() {
     },
   });
   const HandleUserLogin = async (values) => {
-
     console.log(values);
-
 
     const payload = values;
 
-    const res = await fetch(APIROOT+"token/", {
+    const res = await fetch(APIROOT + "token/", {
       method: "POST",
       body: JSON.stringify(payload),
       headers: {
@@ -108,7 +106,7 @@ export function HeaderApp() {
 
   return (
     <Box pb={20} style={{ position: "sticky" }}>
-      <Modal opened={LoginModalOpened} onClose={closeLoginModal} title="Log in">
+      <Modal opened={LoginModalOpened} onClose={closeLoginModal}>
         <form onSubmit={form.onSubmit((values) => HandleUserLogin(values))}>
           <Box maw={320} mx="auto">
             <TextInput
@@ -124,11 +122,14 @@ export function HeaderApp() {
               {...form.getInputProps("password")}
             />
           </Box>
-          <Button size="lg" type="submit">
-            Log in
-          </Button>
+          <Center pt={20}>
+            <Button size="lg" type="submit">
+              Log in
+            </Button>
+          </Center>
         </form>
       </Modal>
+
       <Header height={60} px="md">
         <Group position="apart">
           <TrojmiejskieLogo />
@@ -161,10 +162,10 @@ export function HeaderApp() {
         size="80%"
         position="left"
         className={classes.hiddenDesktop}
-        zIndex={1000000}
+        zIndex={10}
         title={<Text fz={30}>Nawigacja</Text>}
       >
-        <ScrollArea h={`calc(100vh - ${rem(60)})`} mx="-md">
+        {/* <ScrollArea h={`calc(100vh - ${rem(60)})`} mx="-md"> */}
           <Divider
             my="sm"
             color={theme.colorScheme === "dark" ? "dark.5" : "gray.1"}
@@ -186,7 +187,7 @@ export function HeaderApp() {
               {loggedIn ? localStorage.getItem("name") + " Log out" : "Log in"}
             </Button>
           </Group>
-        </ScrollArea>
+        {/* </ScrollArea> */}
       </Drawer>
     </Box>
   );

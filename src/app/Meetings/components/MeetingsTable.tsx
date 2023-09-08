@@ -2,6 +2,7 @@ import { Table } from "@mantine/core";
 import MeetingsRows from "./MeetingsRows";
 import NewMeetingsRows from "./NewMeetingsRows";
 import { TableHead } from "./../../../components/Table/TableRowAndHead";
+import MeetingsAlreadyConfirmed from "./MeetingsAlreadyConfirmed";
 
 export default function MeetingsTable() {
   const tableHeaders = (
@@ -19,6 +20,7 @@ export default function MeetingsTable() {
       <thead>{tableHeaders}</thead>
       <tbody>
         <NewMeetingsRows />
+        <MeetingsAlreadyConfirmed />
         <MeetingsRows />
       </tbody>
     </Table>

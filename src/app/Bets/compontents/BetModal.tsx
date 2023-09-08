@@ -47,7 +47,6 @@ export function BetModal({ ...props }: BetModalProps) {
       <form onSubmit={form.onSubmit((values) => HandleBetSumbit(values))}>
         <Box maw={320} mx="auto">
           <NumberInput
-            defaultValue={18}
             placeholder="Amount"
             label="Amount"
             radius="xl"

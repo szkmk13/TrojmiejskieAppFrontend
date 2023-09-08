@@ -11,7 +11,8 @@ import {
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { useQuery } from "react-query";
-import { PATCH_NOTES_URL, authHeaders } from "utils/api/api";
+import { PATCH_NOTES_URL } from "utils/api/api";
+
 export default function PatchNotes() {
   const getPatchNotes = async () => {
     const res = await fetch(PATCH_NOTES_URL);
