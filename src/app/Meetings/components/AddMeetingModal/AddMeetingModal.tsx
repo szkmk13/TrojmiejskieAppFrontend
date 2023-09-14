@@ -7,6 +7,7 @@ import {
   Button,
   Modal,
   Group,
+  TextInput
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { useMediaQuery } from "@mantine/hooks";
@@ -30,6 +31,7 @@ export function AddMeetingModal({ opened, onClose, withCloseButton }: Props) {
       participants: [],
       who_drank: [],
       place: null,
+      place_other: '',
       date: null,
       kasyno: false,
       pizza: false,
@@ -41,11 +43,12 @@ export function AddMeetingModal({ opened, onClose, withCloseButton }: Props) {
   const [participants, setParticipants] = useState([]);
   const [whoDrink, setWhoDrink] = useState([]);
   const [options_who_drank, setOptionsWhoDrink] = useState([]);
+  const [place_other_visible, setPlaceOtherVisible] = useState(false);
+
   const [dateValue, setDateValue] = useState(new Date());
   // eslint-disable-next-line
   const [selectedDate, setSelectedDate] = useState([]);
 
-  // const meetingPlaces = ["a", "b"];
   const places = async () => {
     const access_token = localStorage.getItem("access_token");
 
@@ -70,18 +73,30 @@ export function AddMeetingModal({ opened, onClose, withCloseButton }: Props) {
     }
   }, [meetingplaces]);
 
+  const handlePlaceChange = (value) =>{
+      console.log(value)
+      if (value==='OTHER'){
+        setPlaceOtherVisible(true)
+
+        form.setFieldValue("place", value);
+        form.setFieldValue("place_other", value);
+      }
+      form.setFieldValue("place", value);
+
+      
+  };
   const options = [
-    { value: "1", label: "Szymon Kowalski" },
-    { value: "2", label: "Daniel" },
-    { value: "3", label: "Kuba" },
-    { value: "4", label: "Krzysiek" },
-    { value: "5", label: "Larox" },
-    { value: "6", label: "Absonic" },
-    { value: "7", label: "Daleki" },
-    { value: "8", label: "Olek" },
-    { value: "9", label: "Duży" },
-    { value: "10", label: "Maro" },
-    { value: "11", label: "Frevost" },
+    { value: "11", label: "Szymon Kowalski" },
+    { value: "3", label: "Daniel" },
+    { value: "9", label: "Kuba" },
+    { value: "5", label: "Krzysiek" },
+    { value: "6", label: "Larox" },
+    { value: "1", label: "Absonic" },
+    { value: "2", label: "Daleki" },
+    { value: "10", label: "Olek" },
+    { value: "4", label: "Duży" },
+    { value: "7", label: "Maro" },
+    { value: "8", label: "Frevost" },
   ];
   const handleDateChange = (value) => {
     setDateValue(value);
@@ -159,12 +174,13 @@ export function AddMeetingModal({ opened, onClose, withCloseButton }: Props) {
               </Grid.Col>
               <Grid.Col span={isMobile ? 12 : 6}>
                 <Select
+                  {...form.getInputProps("place")}
                   size="md"
                   label="Miejsce"
                   mx="auto"
-                  maw={300}
+                  maw={200}
+                  onChange={handlePlaceChange}
                   data={opened ? meetingPlaces : ["a"]}
-                  {...form.getInputProps("place")}
                 />
               </Grid.Col>
               <Grid.Col span={isMobile ? 12 : 6}>
@@ -179,6 +195,17 @@ export function AddMeetingModal({ opened, onClose, withCloseButton }: Props) {
                   error={form.errors.participants}
                 />
               </Grid.Col>
+              {place_other_visible?<Grid.Col span={isMobile ? 12 : 6}>
+
+<TextInput
+  size="md"
+  label="Miejsce"
+  mx="auto"
+  maw={300}
+  {...form.getInputProps("place_other")}
+/>
+</Grid.Col>:<></>}
+             
               <Grid.Col span={isMobile ? 12 : 6}>
                 <MultiSelect
                   size="md"
