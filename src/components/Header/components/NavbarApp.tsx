@@ -1,7 +1,11 @@
-import { createStyles } from "@mantine/core";
+import { List, createStyles } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
+import { IconTemperature } from "@tabler/icons-react";
 import { useState } from "react";
 
 export function NavbarApp() {
+  const isMobile = useMediaQuery("(max-width: 1000px)");
+
   const useStyles = createStyles((theme) => ({
     link: {
       paddingLeft: theme.spacing.md,
@@ -26,11 +30,23 @@ export function NavbarApp() {
   ];
   return (
     <>
-      {navigation.map((item, id) => (
-        <a key={id} href={item.href} className={classes.link}>
-          {item.name}
-        </a>
-      ))}
+      {isMobile ? (
+        <List size="lg">
+          {navigation.map((item, id) => (
+            <List.Item>
+              <a key={id} href={item.href} className={classes.link}>
+                {item.name}
+              </a>
+            </List.Item>
+          ))}
+        </List>
+      ) : (
+        navigation.map((item, id) => (
+          <a key={id} href={item.href} className={classes.link}>
+            {item.name}
+          </a>
+        ))
+      )}
     </>
   );
 }

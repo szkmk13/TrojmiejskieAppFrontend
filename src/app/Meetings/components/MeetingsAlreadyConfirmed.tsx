@@ -1,15 +1,24 @@
 import { useQuery } from "react-query";
 import { MEETINGS_URL } from "utils/api/api.tsx";
 import { TableRow } from "./../../../components/Table/TableRowAndHead.tsx";
-import { Center, Loader, Skeleton } from "@mantine/core";
-
+import {
+  Center,
+  Loader,
+  Popover,
+  Skeleton,
+  Text,
+} from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 
 export default function MeetingsAlreadyConfirmed() {
- 
+  const [
+    loadingPopover,
+    { toggle: ShowLoadingPopover, close: CloseLoadingPopover },
+  ] = useDisclosure(false);
   const getWaitingMeetings = async () => {
     const access_token = localStorage.getItem("access_token");
 
-    const res = await fetch(MEETINGS_URL+'waiting/', {
+    const res = await fetch(MEETINGS_URL + "waiting/", {
       headers: {
         Authorization: "Bearer " + access_token,
       },
@@ -17,7 +26,10 @@ export default function MeetingsAlreadyConfirmed() {
     if (res.status === 401) throw new Error("An error occurred");
     if (res.status === 200) return res.json();
   };
-  const { data, error, isLoading } = useQuery("waitingMeetings", getWaitingMeetings);
+  const { data, error, isLoading } = useQuery(
+    "waitingMeetings",
+    getWaitingMeetings
+  );
 
   if (error)
     return (
@@ -54,7 +66,7 @@ export default function MeetingsAlreadyConfirmed() {
         ))}
       </>
     );
-  if (data) 
+  if (data)
     return (
       <>
         {data.map((meeting) => (
@@ -76,10 +88,31 @@ export default function MeetingsAlreadyConfirmed() {
             />
             <TableRow data={meeting.pizza ? "✔️" : "❌"} />
             <TableRow data={meeting.kasyno ? "✔️" : "❌"} />
-            <TableRow data={<Loader />} />
+            <TableRow
+              data={
+                <>
+                  <Popover
+                    width={"auto"}
+                    position="bottom"
+                    withArrow
+                    shadow="md"
+                    opened={loadingPopover}
+                  >
+                    <Popover.Target>
+                      <Loader
+                        onMouseEnter={ShowLoadingPopover}
+                        onMouseLeave={CloseLoadingPopover}
+                      />
+                    </Popover.Target>
+                    <Popover.Dropdown sx={{ pointerEvents: "none" }}>
+                      <Text>Already confirmed, waiting for others</Text>
+                    </Popover.Dropdown>
+                  </Popover>
+                </>
+              }
+            />
           </tr>
         ))}
       </>
     );
-  
 }
