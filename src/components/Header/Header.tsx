@@ -134,7 +134,7 @@ export function HeaderApp() {
         <Group position="apart">
           <TrojmiejskieLogo />
 
-          <Group spacing={0} className={classes.hiddenMobile}>
+          <Group className={classes.hiddenMobile}>
             <NavbarApp />
           </Group>
 
@@ -165,29 +165,27 @@ export function HeaderApp() {
         zIndex={10}
         title={<Text fz={30}>Nawigacja</Text>}
       >
-        {/* <ScrollArea h={`calc(100vh - ${rem(60)})`} mx="-md"> */}
-          <Divider
-            my="sm"
-            color={theme.colorScheme === "dark" ? "dark.5" : "gray.1"}
-          />
+        <Divider
+          my="sm"
+          color={theme.colorScheme === "dark" ? "dark.5" : "gray.1"}
+        />
 
-          <NavbarApp />
+        <NavbarApp />
 
-          <Divider
-            my="sm"
-            color={theme.colorScheme === "dark" ? "dark.5" : "gray.1"}
-          />
+        <Divider
+          my="sm"
+          color={theme.colorScheme === "dark" ? "dark.5" : "gray.1"}
+        />
 
-          <Group position="center" grow pb="xl" px="md">
-            <Button
-              variant="gradient"
-              gradient={{ from: "#ed6ea0", to: "#ec8c69", deg: 35 }}
-              onClick={loggedIn ? HandleUserLogout : openLoginModal}
-            >
-              {loggedIn ? localStorage.getItem("name") + " Log out" : "Log in"}
-            </Button>
-          </Group>
-        {/* </ScrollArea> */}
+        <Group position="center" grow pb="xl" px="md">
+          <Button
+            variant="gradient"
+            gradient={{ from: "#ed6ea0", to: "#ec8c69", deg: 35 }}
+            onClick={loggedIn ? HandleUserLogout : openLoginModal}
+          >
+            {loggedIn ? localStorage.getItem("name") + " Log out" : "Log in"}
+          </Button>
+        </Group>
       </Drawer>
     </Box>
   );

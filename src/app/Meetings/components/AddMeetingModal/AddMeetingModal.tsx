@@ -31,13 +31,13 @@ export function AddMeetingModal({ opened, onClose, withCloseButton }: Props) {
       participants: [],
       who_drank: [],
       place: null,
-      place_other: '',
+      other_place: "",
       date: null,
       kasyno: false,
       pizza: false,
     },
   });
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   const isMobile = useMediaQuery("(max-width: 1000px)");
   const [participants, setParticipants] = useState([]);
@@ -57,12 +57,13 @@ export function AddMeetingModal({ opened, onClose, withCloseButton }: Props) {
         Authorization: "Bearer " + access_token,
       },
     });
-      if (res.status === 401) throw new Error("An error occurred");
+    if (res.status === 401) throw new Error("An error occurred");
     return res.json();
   };
-  const { data:meetingplaces, error, isLoading } = useQuery("places", places);
+  const { data: meetingplaces, error, isLoading } = useQuery("places", places);
   const [meetingPlaces, setMeetingPlaces] = useState([]);
-  
+  const [otherPlaceVisible, setOtherPlaceVisible] = useState(false);
+
   useEffect(() => {
     if (meetingplaces) {
       const transformedData = meetingplaces.map((item) => ({
@@ -86,17 +87,17 @@ export function AddMeetingModal({ opened, onClose, withCloseButton }: Props) {
       
   };
   const options = [
-    { value: "11", label: "Szymon Kowalski" },
-    { value: "3", label: "Daniel" },
-    { value: "9", label: "Kuba" },
-    { value: "5", label: "Krzysiek" },
-    { value: "6", label: "Larox" },
     { value: "1", label: "Absonic" },
     { value: "2", label: "Daleki" },
-    { value: "10", label: "Olek" },
+    { value: "3", label: "Daniel" },
     { value: "4", label: "Duży" },
+    { value: "5", label: "Krzysiek" },
+    { value: "6", label: "Larox" },
     { value: "7", label: "Maro" },
     { value: "8", label: "Frevost" },
+    { value: "9", label: "Kuba" },
+    { value: "10", label: "Olek" },
+    { value: "11", label: "Szymon Kowalski" },
   ];
   const handleDateChange = (value) => {
     setDateValue(value);
@@ -115,14 +116,22 @@ export function AddMeetingModal({ opened, onClose, withCloseButton }: Props) {
     setWhoDrink(value);
     form.setFieldValue("who_drank", value);
   };
+  const handleChangePlace = (value) => {
+    setOtherPlaceVisible(false);
 
-
+    console.log(value);
+    form.setFieldValue("place", value);
+    if (value === "OTHER") {
+      setOtherPlaceVisible(true);
+      form.setFieldValue("other_place", "jakie?");
+    }
+  };
 
   const sendNewMeeting = async (values) => {
     const access_token = localStorage.getItem("access_token");
     values.trojmiejski = localStorage.getItem("user_id");
     const payload = values;
-    console.log(values.date)
+    console.log(values.date);
     const res = await fetch(APIROOT + "meetings/", {
       method: "POST",
       body: JSON.stringify(payload),
@@ -130,19 +139,17 @@ export function AddMeetingModal({ opened, onClose, withCloseButton }: Props) {
         "Content-Type": "application/json",
         Authorization: "Bearer " + access_token,
       },
-    })
+    });
     if (res.status === 201) {
-      form.reset()
-      onClose()
+      form.reset();
+      onClose();
       queryClient.invalidateQueries(["pendingMettings"]);
       queryClient.invalidateQueries(["waitingMeetings"]);
-
       queryClient.invalidateQueries(["meetings"]);
     } else {
-      const data = await res.json()
+      const data = await res.json();
       alert(Object.entries(data));
     }
-
   };
 
   return (
@@ -174,13 +181,13 @@ export function AddMeetingModal({ opened, onClose, withCloseButton }: Props) {
               </Grid.Col>
               <Grid.Col span={isMobile ? 12 : 6}>
                 <Select
-                  {...form.getInputProps("place")}
                   size="md"
                   label="Miejsce"
                   mx="auto"
-                  maw={200}
-                  onChange={handlePlaceChange}
+                  maw={300}
                   data={opened ? meetingPlaces : ["a"]}
+                  {...form.getInputProps("place")}
+                  onChange={handleChangePlace}
                 />
               </Grid.Col>
               <Grid.Col span={isMobile ? 12 : 6}>
@@ -195,17 +202,19 @@ export function AddMeetingModal({ opened, onClose, withCloseButton }: Props) {
                   error={form.errors.participants}
                 />
               </Grid.Col>
-              {place_other_visible?<Grid.Col span={isMobile ? 12 : 6}>
-
-<TextInput
-  size="md"
-  label="Miejsce"
-  mx="auto"
-  maw={300}
-  {...form.getInputProps("place_other")}
-/>
-</Grid.Col>:<></>}
-             
+              {otherPlaceVisible ? (
+                <Grid.Col span={isMobile ? 12 : 6}>
+                  <TextInput
+                    {...form.getInputProps("other_place")}
+                    size="md"
+                    mx="auto"
+                    maw={300}
+                    label="Inne miejsce"
+                  />
+                </Grid.Col>
+              ) : (
+                <></>
+              )}
               <Grid.Col span={isMobile ? 12 : 6}>
                 <MultiSelect
                   size="md"

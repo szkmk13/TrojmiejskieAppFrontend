@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Button,
-  Center,
-  Grid,
-  Group,
-
-} from "@mantine/core";
+import { Button, Center, Grid, Group, Menu } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 export default function DateFilter() {
   const months = [
@@ -22,50 +16,52 @@ export default function DateFilter() {
     "Listopad",
     "Grudzień",
   ];
-  const years = [
-    "All time", "2022", "2023"
-  ]
+  const years = ["All time", "2022", "2023"];
   const isMobile = useMediaQuery("(max-width: 1000px)");
 
   return (
-      <Group position="center" spacing="md" pb={20}>
-        <Grid gutter="md">
-          <Grid.Col span={3}>
-            <Grid style={{
-                display: "flex",
-                justifyContent: "space-evenly",
-                flexWrap: "wrap",
-              }}
-            >
-              
+    <Group position="center" spacing="md" pb={20}>
+      <Grid gutter="md">
+        <Grid.Col span={2}>
+          <Menu shadow="md" width={200}>
+            <Menu.Target>
+              <Button>Year</Button>
+            </Menu.Target>
+            <Menu.Dropdown>
+              <Menu.Label>Rok do wyboru</Menu.Label>
               {years.map((year) => (
-                <Grid.Col span={isMobile? 12:6} style={{ flexBasis: "15%" }}>
                   <Center>
-                    <Button radius="xl" size="lg" variant="outline" >{year}</Button>
+                    <Menu.Item>
+                      <Button radius="xl" size="md" variant="outline">
+                        {year}
+                      </Button>
+                    </Menu.Item>
                   </Center>
-                </Grid.Col>
               ))}
-            </Grid>
-          </Grid.Col>
+            </Menu.Dropdown>
+          </Menu>
+        </Grid.Col>
 
-          <Grid.Col span={9}>
-            <Grid
-              style={{
-                display: "flex",
-                justifyContent: "space-evenly",
-                flexWrap: "wrap",
-              }}
-            >
+        <Grid.Col span={8}>
+          <Menu shadow="md" width={200} withArrow>
+            <Menu.Target>
+              <Button>Month</Button>
+            </Menu.Target>
+            <Menu.Dropdown>
+              <Menu.Label>Miesiąc do wyboru</Menu.Label>
               {months.map((month) => (
-                <Grid.Col span={6} style={{ flexBasis: "15%" }}>
                   <Center>
-                    <Button radius="xl" size="lg">{month}</Button>
+                    <Menu.Item>
+                      <Button radius="xl" size="sm">
+                        {month}
+                      </Button>
+                    </Menu.Item>
                   </Center>
-                </Grid.Col>
               ))}
-            </Grid>
-          </Grid.Col>
-        </Grid>
-      </Group>
+            </Menu.Dropdown>
+          </Menu>
+        </Grid.Col>
+      </Grid>
+    </Group>
   );
 }

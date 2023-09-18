@@ -2,6 +2,7 @@ import {
   Button,
   Container,
   Group,
+  ScrollArea,
 } from "@mantine/core";
 
 import MeetingsTable from "./components/MeetingsTable";
@@ -29,8 +30,10 @@ export default function Meetings() {
             withCloseButton={false}
           />
         </Group>
+        <ScrollArea>
 
         <MeetingsTable />
+        </ScrollArea>
       </Container>
     </>
   );

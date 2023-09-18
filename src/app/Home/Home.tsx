@@ -47,6 +47,7 @@ export default function Home() {
     "Chlory",
     "Płaczemy razem",
     "ESPANIA",
+    "PEDAŁY"
   ];
 
   
