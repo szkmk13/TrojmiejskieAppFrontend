@@ -1,5 +1,5 @@
-// export const APIROOT = 'https://szymon.kowalski.cybulski.dev/api/'
-export const APIROOT = 'http://localhost:8010/api/'
+export const APIROOT = 'https://szymon.kowalski.cybulski.dev/api/'
+// export const APIROOT = 'http://localhost:8010/api/'
 export const MEETINGS_URL = APIROOT + 'meetings/'
 export const MEETINGS_URL_CONFIRM = MEETINGS_URL + 'confirm/'
 
