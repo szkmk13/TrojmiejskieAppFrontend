@@ -20,9 +20,8 @@ export default function DateFilter() {
   const isMobile = useMediaQuery("(max-width: 1000px)");
 
   return (
-    <Group position="center" spacing="md" pb={20}>
       <Grid gutter="md">
-        <Grid.Col span={2}>
+        <Grid.Col span={isMobile? 12:3}>
           <Menu shadow="md" width={200}>
             <Menu.Target>
               <Button>Year</Button>
@@ -42,7 +41,7 @@ export default function DateFilter() {
           </Menu>
         </Grid.Col>
 
-        <Grid.Col span={8}>
+        <Grid.Col span={isMobile?12:9}>
           <Menu shadow="md" width={200} withArrow>
             <Menu.Target>
               <Button>Month</Button>
@@ -62,6 +61,5 @@ export default function DateFilter() {
           </Menu>
         </Grid.Col>
       </Grid>
-    </Group>
   );
 }

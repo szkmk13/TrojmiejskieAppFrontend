@@ -22,6 +22,7 @@ export default function Bets() {
   };
   // eslint-disable-next-line
   const { data: bets, error, isLoading } = useQuery("bets", apicall);
+
   if (isLoading) {
     return <Skeleton height={400} radius="xl" width={270}></Skeleton>;
   }
