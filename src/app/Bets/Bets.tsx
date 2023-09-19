@@ -4,6 +4,7 @@ import { useMantineTheme, rem, Skeleton, Text } from "@mantine/core";
 import { useQuery } from "react-query";
 import { Bet } from "./compontents/BetCard";
 import { APIROOT } from "utils/api/api";
+import { Votes } from "./compontents/Votes";
 
 export default function Bets() {
   const theme = useMantineTheme();
@@ -34,7 +35,7 @@ export default function Bets() {
     ));
     return (
       <>
-        {/* <Text>23</Text> */}
+        <Votes/>
         <Carousel
           slideSize="20%"
           breakpoints={[{ maxWidth: "sm", slideSize: "90%", slideGap: rem(2) }]}

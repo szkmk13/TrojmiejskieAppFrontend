@@ -1,63 +1,57 @@
 import { MostRecentWord } from "./MostRecentWord";
 import { Trojmiejski } from "./Trojmiejski";
 import { TableRow } from "./../../../../components/Table/TableRowAndHead";
-
+import { useQuery } from "react-query";
+import { USERS_URL } from "utils/api/api";
+import { Center, Grid, Skeleton, Text } from "@mantine/core";
 
 export default function TableRows() {
-  const users = [
-    {
-      id: 1,
-      url: "http://localhost:8010/api/users/1/",
-      username: "szymek",
-      profile_picture:
-        "https://szymon.kowalski.cybulski.dev/media/profile_pictures/Larox_generate_a_guy_around_25_years_old_ginger_hair_works_as_c_4.png",
-      total_chat_messages: 4,
-      total_words: 312321,
-      most_used_word: {
-        words: ["seima"],
-        times: 2,
-      },
-      total_photos: 10,
-      total_reactions: 21,
-      total_feet: 30,
-      total_points: 13412,
-    },
-    {
-      id: 2,
-      url: "http://localhost:8010/api/users/1/",
-      username: "krzysiem",
-      profile_picture:
-        "https://szymon.kowalski.cybulski.dev/media/profile_pictures/Larox_generate_a_guy_around_25_years_old_ginger_hair_works_as_c_4.png",
-      total_chat_messages: 83,
-      total_words: 286,
-      most_used_word: {
-        words: ["to", "na", "sie"],
-        times: 75,
-      },
-      total_photos: 0,
-      total_reactions: 41,
-      total_feet: 0,
-      total_points: 147,
-    },{
-      id: 3,
-      url: "http://localhost:8010/api/users/1/",
-      username: "danio",
-      profile_picture:
-        "https://szymon.kowalski.cybulski.dev/media/profile_pictures/Larox_generate_a_guy_around_25_years_old_ginger_hair_works_as_c_4.png",
-      total_chat_messages: 83,
-      total_words: 286,
-      most_used_word: {
-        words: ["to", "na", "sie","nie","wiem","jakie","slowa","jeszcze", "sie","nie","wiem","jakie","slowa","jeszcze"],
-        times: 1,
-      },
-      total_photos: 3,
-      total_reactions: 23,
-      total_feet: 876,
-      total_points: 22,
-    },
-  ];
+  const getUsers = async () => {
+    const access_token = localStorage.getItem("access_token");
 
-  const rows = users.map((user) => (
+    const res = await fetch(USERS_URL, {
+      headers: {
+        Authorization: "Bearer " + access_token,
+      },
+    });
+    if (res.status === 401) throw new Error("An error occurred");
+    if (res.status === 200) return res.json();
+  };
+  const { data: users, error, isLoading } = useQuery("users", getUsers);
+  if (error) {
+    return <Text>somethign went wrong</Text>;
+  }
+  if (isLoading) {
+    return (
+      <>
+        {[...Array(2)].map(() => (
+          <tr>
+            <td>
+              <Grid>
+                <Grid.Col span={6}>
+                  <Skeleton height={100} circle />
+                </Grid.Col>
+                <Grid.Col span={6}>
+                  <Center pt={40}>
+                    <Skeleton height={20} />
+                  </Center>
+                </Grid.Col>
+              </Grid>
+            </td>
+            <TableRow data={<Skeleton height={20} radius="xl" width={50} />} />
+            <TableRow data={<Skeleton height={20} radius="xl" width={30} />} />
+            <TableRow data={<Skeleton height={20} radius="xl" width={150} />} />
+            {[...Array(4)].map(() => (
+              <TableRow
+                data={<Skeleton height={20} radius="xl" width={20} />}
+              />
+            ))}
+          </tr>
+        ))}
+      </>
+    );
+  }
+  return users.map((user) => (
     <>
       <tr key={user.id}>
         <Trojmiejski user={user} />
@@ -71,5 +65,4 @@ export default function TableRows() {
       </tr>
     </>
   ));
-  return <>{rows}</>;
 }
